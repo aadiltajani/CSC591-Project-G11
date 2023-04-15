@@ -118,7 +118,7 @@ def getCliArgs():
     parser.add_argument("-g", "--go", type=str, default="all", required=False, help="start-up action")
     parser.add_argument("-h", "--help", action='store_true', help="show help")
     parser.add_argument("-s", "--seed", type=int, default=937162211, required=False, help="random number seed")
-    parser.add_argument("-f", "--file", type=str, default="../etc/data/auto93.csv", required=False, help="data file")
+    parser.add_argument("-f", "--file", type=str, default="../../etc/data/auto93.csv", required=False, help="data file")
     parser.add_argument("-p", "--p", type=int, default=2, required=False, help="distance coefficient")
     parser.add_argument("-c", "--cliffs", type=float, default=0.147, required=False, help="cliff's delta threshold")
     parser.add_argument("-F", "--Far", type=float, default=0.95, required=False, help="distance to distant")
