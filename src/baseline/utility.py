@@ -23,7 +23,7 @@ OPTIONS:
   -b  --bins    initial number of bins       = 16
   -c  --cliffs  cliff's delta threshold      = .147
   -d  --d       different is over sd*d       = .35
-  -f  --file    data file                    = ../etc/data/auto93.csv
+  -f  --file    data file                    = ../etc/data/healthCloseIsses12mths0011-easy.csv
   -F  --Far     distance to distant          = .95
   -g  --go      start-up action              = all
   -h  --help    show help                    = false
@@ -91,20 +91,20 @@ def someFunc():
     args.Max = 512
     # print(has(num1))
 
-def symFunc():
-    sym = adds(SYM(), ["a","a","a","a","b","b","c"])
-    print(query.mid(sym), round(query.div(sym), 2))
-    return 1.38 == round(query.div(sym), 2)
+# def symFunc():
+#     sym = adds(SYM(), ["a","a","a","a","b","b","c"])
+#     print(query.mid(sym), round(query.div(sym), 2))
+#     return 1.38 == round(query.div(sym), 2)
 
-def numFunc():
-    num1, num2 = NUM(), NUM()
-    for i in range(10000):
-        add(num1, rand())
-    for i in range(10000):
-        add(num2, rand() ** 2)
-    print(1, round(query.mid(num1), 2), round(query.div(num1), 2))
-    print(2, round(query.mid(num2), 2), round(query.div(num2), 2))
-    return .5 == round(query.mid(num1), 1) and query.mid(num1)> query.mid(num2)
+# def numFunc():
+#     num1, num2 = NUM(), NUM()
+#     for i in range(10000):
+#         add(num1, rand())
+#     for i in range(10000):
+#         add(num2, rand() ** 2)
+#     print(1, round(query.mid(num1), 2), round(query.div(num1), 2))
+#     print(2, round(query.mid(num2), 2), round(query.div(num2), 2))
+#     return .5 == round(query.mid(num1), 1) and query.mid(num1)> query.mid(num2)
 
 def crashFunc():
     num = NUM()
@@ -118,7 +118,7 @@ def getCliArgs():
     parser.add_argument("-g", "--go", type=str, default="all", required=False, help="start-up action")
     parser.add_argument("-h", "--help", action='store_true', help="show help")
     parser.add_argument("-s", "--seed", type=int, default=937162211, required=False, help="random number seed")
-    parser.add_argument("-f", "--file", type=str, default="../../etc/data/auto93.csv", required=False, help="data file")
+    parser.add_argument("-f", "--file", type=str, default="../../etc/data/healthCloseIsses12mths0001-hard.csv", required=False, help="data file")
     parser.add_argument("-p", "--p", type=int, default=2, required=False, help="distance coefficient")
     parser.add_argument("-c", "--cliffs", type=float, default=0.147, required=False, help="cliff's delta threshold")
     parser.add_argument("-F", "--Far", type=float, default=0.95, required=False, help="distance to distant")
@@ -146,49 +146,22 @@ def readCSV(sFilename, fun):
         for line in csvFile:
             fun(line)
 
-def dataFunc():
-
-    script_dir = os.path.dirname(__file__)
-    full_path = os.path.join(script_dir, args.file)
-    data = DATA(full_path)
-    col = data.cols.x[1].col
-    print(col.lo,col.hi, query.mid(col), query.div(col))
-    print(query.stats(data))
-
-def cloneFunc():
-
-    script_dir = os.path.dirname(__file__)
-    full_path = os.path.join(script_dir, args.file)
-    data1 = DATA(full_path)
-    data2 = DATA(data1, data1.rows)
-    print(query.stats(data1))
-    print(query.stats(data2))
-
 def swayFunc():
+    for mode in ["sway1", "sway2"]:
+        print("sway mode:",mode)
+        script_dir = os.path.dirname(__file__)
+        full_path = os.path.join(script_dir, args.file)
+        data = DATA(full_path)
+        best, rest, _ = opt.sway(mode, data)
+        print("\nall ", query.stats(data))
+        print("    ",   query.stats(data, query.div))
+        print("\nbest", query.stats(best))
+        print("    ",   query.stats(best, query.div))
+        print("\nrest", query.stats(rest))
+        print("    ",   query.stats(rest, query.div))
+        print("\nall ~= best?", misc.diffs(best.cols.y, data.cols.y))
+        print("best ~= rest?", misc.diffs(best.cols.y, rest.cols.y))
 
-    script_dir = os.path.dirname(__file__)
-    full_path = os.path.join(script_dir, args.file)
-    data = DATA(full_path)
-    best, rest, _ = opt.sway(data)
-    print("\nall ", query.stats(data))
-    print("    ",   query.stats(data, query.div))
-    print("\nbest", query.stats(best))
-    print("    ",   query.stats(best, query.div))
-    print("\nrest", query.stats(rest))
-    print("    ",   query.stats(rest, query.div))
-    print("\nall ~= best?", misc.diffs(best.cols.y, data.cols.y))
-    print("best ~= rest?", misc.diffs(best.cols.y, rest.cols.y))
-
-def halfFunc():
-
-    script_dir = os.path.dirname(__file__)
-    full_path = os.path.join(script_dir, args.file)
-    data = DATA(full_path)
-    left, right, A, B, c, _ = cluster.half(data)
-    print(len(left), len(right))
-    l, r = DATA(data, left), DATA(data, right)
-    print("l", query.stats(l))
-    print("r", query.stats(r))
 
 def cliffsFunc():
 
@@ -245,16 +218,18 @@ def binsFunc():
                   range.y.has)
 
 def explnFunc():
-    script_dir = os.path.dirname(__file__)
-    full_path = os.path.join(script_dir, args.file)
-    data = DATA(full_path)
-    best, rest, evals = opt.sway(data)
-    rule, _ = disc.xpln(data, best, rest)
-    print("\n-----------\nexplain=", disc.showRule(rule))
-    data1 = DATA(data, disc.selects(rule, data.rows))
-    print("all                ", query.stats(data), query.stats(data, query.div))
-    print(f"sway with   {evals} evals", query.stats(best), query.stats(best, query.div))
-    print(f"xpln on     {evals} evals", query.stats(data1), query.stats(data1, query.div))
-    top, _ = query.betters(data, len(best.rows))
-    top = DATA(data, top)
-    print(f"sort with {len(data.rows)} evals", query.stats(top), query.stats(top, query.div))
+    for mode in ["sway1", "sway2"]:
+        print("\n\n_______________xpln sway:", mode)
+        script_dir = os.path.dirname(__file__)
+        full_path = os.path.join(script_dir, args.file)
+        data = DATA(full_path)
+        best, rest, evals = opt.sway(mode, data)
+        rule, _ = disc.xpln(data, best, rest)
+        print("\n-----------\nexplain=", disc.showRule(rule))
+        data1 = DATA(data, disc.selects(rule, data.rows))
+        print("all                ", query.stats(data), query.stats(data, query.div))
+        print(f"sway with   {evals} evals", query.stats(best), query.stats(best, query.div))
+        print(f"xpln on     {evals} evals", query.stats(data1), query.stats(data1, query.div))
+        top, _ = query.betters(data, len(best.rows))
+        top = DATA(data, top)
+        print(f"sort with {len(data.rows)} evals", query.stats(top), query.stats(top, query.div))

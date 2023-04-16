@@ -19,9 +19,10 @@ def bins(cols, rowss):
                     col = col.col
                 x = row[col.at]
                 if x != "?":
-                    k = int(bin(col, float(x) if x != "?" else x))
-                    ranges[k] = ranges[k] if k in ranges else RANGE(col.at, col.txt, float(x) if x != "?" else x)
-                    update.extend(ranges[k], float(x), y)
+                    # print("!!!!!",col.txt, hasattr(col, "isSym"))
+                    k = bin(col, float(x) if x != "?" and hasattr(col, "isSym") == False else x)
+                    ranges[k] = ranges[k] if k in ranges else RANGE(col.at, col.txt, float(x) if x != "?"  and hasattr(col, "isSym") == False else x)
+                    update.extend(ranges[k], float(x) if not hasattr(col, "isSym") else x, y)
         ranges = {key: value for key, value in sorted(ranges.items(), key=lambda x: x[1].lo)}
         newRanges = {}
         i = 0
@@ -146,15 +147,18 @@ def showRule(rule):
 def selects(rule, rows):
     def disjunction(ranges, row):
         for range in ranges:
-            lo = int(range['lo']) if isinstance(range['lo'], str) else range['lo']
-            hi = int(range['hi']) if isinstance(range['hi'], str) else range['hi']
+            lo = range['lo']
+            hi = range['hi']
             at = int(range['at'])
             x = row[at]
             if x == "?":
                 return True
-            x = float(x)
-            if lo == hi and lo == x:
-                return True
+            x = float(x) if x.replace(".", "").isnumeric() else x
+            if lo == hi: 
+                if lo == x:
+                    return True
+                else:
+                    return False
             if lo <= x and x < hi:
                 return True
         return False

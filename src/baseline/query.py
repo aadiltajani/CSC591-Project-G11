@@ -2,6 +2,8 @@ from list import *
 from utility import *
 import utility as util
 import math
+import sys
+from functools import cmp_to_key
 
 def has(col):
 
@@ -43,7 +45,7 @@ def stats(data, fun = None, cols = None, nPlaces = 2):
     # return tmp, map(mid, cols)
 
 def norm(num, n):
-    return n if n == "?" else (n - num.lo) / (num.hi - num.lo + 1 / float("inf"))
+    return n if n == "?" else (n - num.lo) / (num.hi - num.lo + sys.float_info.min)
 
 
 def value(has, nB = 1, nR = 1, sGoal = True):
@@ -90,21 +92,6 @@ def better(data, row1, row2):
     return s1/len(ys) < s2 / len(ys)
 
 def betters(data, n = None):
-    def quicksort(arr, cmp_func):
-        if len(arr) <= 1:
-            return arr
-
-        pivot = arr[0]
-        left = []
-        right = []
-
-        for item in arr[1:]:
-            if cmp_func(data, item, pivot) == True:
-                left.append(item)
-            else:
-                right.append(item)
-
-        return quicksort(left, cmp_func) + [pivot] + quicksort(right, cmp_func)
-
-    tmp = quicksort(data.rows, better)
+    tmp = sorted(data.rows, key=cmp_to_key(
+            lambda row1, row2: -1 if better(data, row1, row2) else 1))
     return tmp[:n], tmp[n:] if n else tmp
