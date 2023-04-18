@@ -1,4 +1,5 @@
 import utility
+import copy
 
 def main(funs):
 
@@ -21,16 +22,21 @@ def main(funs):
     # if (utility.args.help):
     #     print(utility.help)
         result_array.append(utility.explnFunc())
-        print(seed)
-        for i in result_array[-1].items():
-            print(i)
+        # print(seed)
+        # for i in result_array[-1].items():
+        #     print(i)
+    var_dic = {}
     for i in result_array[0]['all'].keys():
+        var_dic[i] = []
         all[i] = 0
         sway1[i] = 0
         sway2[i] = 0
         xpln1[i] = 0
         xpln2[i] = 0
         top[i] = 0
+
+    data_store = {k:copy.deepcopy(var_dic) for k in result_array[0].keys()}
+
     for result in result_array:
         # print(result)
         for key in result['all'].keys():
@@ -40,6 +46,8 @@ def main(funs):
             xpln1[key] += result['xpln1'][key]
             xpln2[key] += result['xpln2'][key]
             top[key] += result['top'][key]
+            for i in data_store.keys():
+                data_store[i][key].append(result[i][key])
     print("============================================\nDataset: healthCloseIsses12mths0001-hard.csv")
     print("============================================\nMean results of best outcomes from 20 runs\n============================================\n")
     print("\t",'\t'.join(all.keys()))
@@ -49,6 +57,12 @@ def main(funs):
     print("sway2\t",'\t'.join([str(meanval(i)) for i in sway2.values()]))
     print("xpln2\t",'\t'.join([str(meanval(i)) for i in xpln2.values()]))
     print("top\t",'\t'.join([str(meanval(i)) for i in top.values()]))
+    
+    print('\n')
+    print("============================================\nEffect Size Test Comparison - Cliff's Delta\n============================================")
+    print("\t\t",'\t'.join(all.keys()))
+    for i in [('all', 'all'), ('all', 'sway1'), ('all', 'sway2'), ('sway1', 'sway2'), ('sway1', 'xpln1'), ('sway2', 'xpln2'), ('sway1', 'top')]:
+        print(i[0]+' to '+i[1]+'\t', '\t'.join(['=' if i else '≠' for i in [utility.cliffsDelta(data_store[i[0]][j], data_store[i[1]][j]) for j in all.keys()]]))
 
     # else:
     #     for what, _ in funs.items():
@@ -59,6 +73,16 @@ def main(funs):
     #             else: pass
     # if (fails == 0): return 0
     # else: return 1
+
+    print("\n\n============================================\nScottsKnot\n============================================")
+    for i in all.keys():
+        rxs = []
+        print('\nScottsKnot for:',i)
+        for k,v in [i for i in data_store.items() if i[0] != 'top']:
+            rxs.append(utility.RX(v[i],"" + k))
+        for rx in utility.tiles(utility.scottKnot(rxs)):
+            print("",rx['rank'],rx['name'],rx['show'],sep='\t')
+
 
 if __name__ == "__main__":
     main(utility.egs)
