@@ -12,6 +12,6 @@ from utility import *
 # eg("dist","distance test", distFunc)
 # eg("half","divide data in half", halfFunc)
 # eg("tree","make snd show tree of clusters", treeFunc)
-eg("sway","optimizing", swayFunc)
+# eg("sway","optimizing", swayFunc)
 # eg("bins","find deltas between best and rest", binsFunc)
-eg("xpln", "explore explanation sets", explnFunc)
+# eg("xpln", "explore explanation sets", explnFunc)
