@@ -1,15 +1,9 @@
-import argparse
-import csv
 import json
 import math
-import os
 from num import NUM
-from data import DATA
 from update import *
 import query as query
 import cluster as cluster
-import Optimization as opt
-import Discretization as disc
 import random
 
 args = None
@@ -27,6 +21,7 @@ def rint(lo = None, hi = None):
 
 def rand(low = None, high = None):
     global Seed
+    Seed = util.args.seed
     low, high = low or 0, high or 1
     Seed = (16807 * Seed) % 2147483647
     return low + (high - low) * Seed / 2147483647

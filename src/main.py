@@ -57,7 +57,7 @@ def main(funs):
     print("============================================\nEffect Size Test Comparison - Cliff's Delta\n============================================")
     print("\t\t",'\t'.join(all.keys()))
     for i in [('all', 'all'), ('all', 'sway1'), ('all', 'sway2'), ('sway1', 'sway2'), ('sway1', 'xpln1'), ('sway2', 'xpln2'), ('sway1', 'top')]:
-        print(i[0]+' to '+i[1]+'\t', '\t'.join(['=' if i else '≠' for i in [utility.cliffsDelta(data_store[i[0]][j], data_store[i[1]][j]) for j in all.keys()]]))
+        print(i[0]+' to '+i[1]+'\t', '\t'.join(['=' if i else '≠' for i in [stats.cliffsDelta(data_store[i[0]][j], data_store[i[1]][j]) for j in all.keys()]]))
 
 
     print("\n\n============================================\nScottsKnot\n============================================")
@@ -71,4 +71,4 @@ def main(funs):
 
 
 if __name__ == "__main__":
-    main(stats.egs)
+    main(utility.egs)

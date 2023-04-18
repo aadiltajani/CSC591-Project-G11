@@ -1,6 +1,6 @@
 import math
 import utility as util
-import stats
+
 
 def many(t, n):
 
@@ -10,7 +10,7 @@ def many(t, n):
     return u
 
 def any(t):
-    rintVal = stats.rint(None, len(t) - 1)
+    rintVal = util.rint(None, len(t) - 1)
     return t[rintVal]
 
 def per(t, p):
