@@ -78,8 +78,8 @@ def main(funs):
     for i in all.keys():
         rxs = []
         print('\nScottsKnot for:',i)
-        for k,v in [i for i in data_store.items() if i[0] != 'top']:
-            rxs.append(utility.RX(v[i],"" + k))
+        for k,v in data_store.items():
+            rxs.append(utility.RX(v[i],k))
         for rx in utility.tiles(utility.scottKnot(rxs)):
             print("",rx['rank'],rx['name'],rx['show'],sep='\t')
 
