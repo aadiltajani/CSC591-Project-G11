@@ -1,5 +1,6 @@
 from cols import COLS
 import utility as util
+import stats
 import random
 
 def row(data, t):
@@ -24,9 +25,9 @@ def add(col, x, n = None):
         if len(t) < util.args.Max:
             col.ok = False
             t.append(x)
-        elif util.rand() < util.args.Max / col.n:
+        elif stats.rand() < util.args.Max / col.n:
             col.ok = False
-            t[util.rint(0, len(t) - 1)] = x
+            t[stats.rint(0, len(t) - 1)] = x
 
     if x != "?":
         n = n or 1

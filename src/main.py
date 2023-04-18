@@ -1,4 +1,5 @@
 import utility
+import stats
 import copy
 
 def main(funs):
@@ -64,10 +65,10 @@ def main(funs):
         rxs = []
         print('\nScottsKnot for:',i)
         for k,v in [i for i in data_store.items() if i[0] != 'top']:
-            rxs.append(utility.RX(v[i],"" + k))
-        for rx in utility.tiles(utility.scottKnot(rxs)):
+            rxs.append(stats.RX(v[i],"" + k))
+        for rx in stats.tiles(stats.scottKnot(rxs)):
             print("",rx['rank'],rx['name'],rx['show'],sep='\t')
 
 
 if __name__ == "__main__":
-    main(utility.egs)
+    main(stats.egs)
