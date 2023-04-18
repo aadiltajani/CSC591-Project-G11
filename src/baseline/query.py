@@ -40,9 +40,7 @@ def stats(data, fun = None, cols = None, nPlaces = 2):
         col = col.col
         return round((fun or mid)(col), nPlaces), col.txt
     tmp = kap(cols, callBack)
-    # tmp["N"] = len(data.rows)
     return tmp
-    # return tmp, map(mid, cols)
 
 def norm(num, n):
     return n if n == "?" else (n - num.lo) / (num.hi - num.lo + sys.float_info.min)

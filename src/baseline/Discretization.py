@@ -19,7 +19,6 @@ def bins(cols, rowss):
                     col = col.col
                 x = row[col.at]
                 if x != "?":
-                    # print("!!!!!",col.txt, hasattr(col, "isSym"))
                     k = bin(col, float(x) if x != "?" and hasattr(col, "isSym") == False else x)
                     ranges[k] = ranges[k] if k in ranges else RANGE(col.at, col.txt, float(x) if x != "?"  and hasattr(col, "isSym") == False else x)
                     update.extend(ranges[k], float(x) if not hasattr(col, "isSym") else x, y)
@@ -88,7 +87,6 @@ def xpln(data, best, rest):
     def score(ranges):
         rule = RULE(ranges, maxSizes)
         if rule:
-            # print(showRule(rule))
             bestr= selects(rule, best.rows)
             restr= selects(rule, rest.rows)
             if len(bestr) + len(restr) > 0:
@@ -96,9 +94,7 @@ def xpln(data, best, rest):
     tmp, maxSizes = [], {}
     for ranges in bins(data.cols.x, {"best": best.rows, "rest": rest.rows}):
         maxSizes[ranges[0].txt] = len(ranges)
-        # print("")
         for range in ranges:
-            # print("Ranges: ",range.txt, range.lo, range.hi)
             tmp.append({"range": range, "max": len(ranges), "val": v(range.y.has)})
 
     rule, most = firstN(sorted(tmp, key=lambda x: x["val"], reverse=True), score)
@@ -106,9 +102,6 @@ def xpln(data, best, rest):
 
 
 def firstN(sortedRanges, scoreFun):
-    # print("")
-    # for r in sortedRanges:
-    #     print(r["range"].txt, r["range"].lo, r["range"].hi, round(r["val"], 2), r["range"].y.has, sep='\t')
     first = sortedRanges[0]["val"]
     def useful(range):
         if range["val"] > 0.05 and range["val"] > first / 10:
@@ -148,7 +141,6 @@ def showRule(rule):
     return lst.kap(rule, merges)
 
 def selects(rule, rows):
-    # print("________",rule)
     def disjunction(ranges, row):
         for range in ranges:
             lo = range['lo']
@@ -169,7 +161,6 @@ def selects(rule, rows):
 
     def conjunction(row):
         for ranges in rule.values():
-            # print("____", rule, rule.values())
             if not disjunction(ranges, row):
                 return False
         return True
@@ -182,7 +173,6 @@ def xpln2(data, best, rest):
     def score(ranges, negranges):
         rule = {'pos':RULE(ranges, maxSizes), 'neg':RULE(negranges, maxSizes)}
         if rule['pos']:
-            # print(showRule(rule['pos']), showRule(rule['neg']))
             bestr= selects2(rule, best.rows)
             restr= selects2(rule, rest.rows)
             if len(bestr) + len(restr) > 0:
@@ -190,18 +180,13 @@ def xpln2(data, best, rest):
     tmp, maxSizes = [], {}
     for ranges in bins(data.cols.x, {"best": best.rows, "rest": rest.rows}):
         maxSizes[ranges[0].txt] = len(ranges)
-        # print("")
         for range in ranges:
-            # print("Ranges: ",range.txt, range.lo, range.hi)
             tmp.append({"range": range, "max": len(ranges), "val": v(range.y.has)})
 
     rule, most = firstN2(sorted(tmp, key=lambda x: x["val"], reverse=True), score)
     return rule, most
 
 def firstN2(sortedRanges, scoreFun):
-    # print("")
-    # for r in sortedRanges:
-        # print(r["range"].txt, r["range"].lo, r["range"].hi, round(r["val"], 2), r["range"].y.has, sep='\t')
     first = sortedRanges[0]["val"]
     def useful(range):
         if range["val"] > 0.05 and range["val"] > first / 10:
@@ -226,7 +211,6 @@ def firstN2(sortedRanges, scoreFun):
 
 
 def selects2(rule, rows):
-    # print("________",rule)
     def disjunction(ranges, row):
         for range in ranges:
             lo = range['lo']

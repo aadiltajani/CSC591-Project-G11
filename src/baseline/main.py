@@ -19,12 +19,7 @@ def main(funs):
 
     for seed in seedarr:
         utility.getCliArgs(seed)
-    # if (utility.args.help):
-    #     print(utility.help)
         result_array.append(utility.explnFunc())
-        # print(seed)
-        # for i in result_array[-1].items():
-        #     print(i)
     var_dic = {}
     for i in result_array[0]['all'].keys():
         var_dic[i] = []
@@ -38,7 +33,6 @@ def main(funs):
     data_store = {k:copy.deepcopy(var_dic) for k in result_array[0].keys()}
 
     for result in result_array:
-        # print(result)
         for key in result['all'].keys():
             all[key] += result['all'][key]
             sway1[key] += result['sway1'][key]
@@ -64,15 +58,6 @@ def main(funs):
     for i in [('all', 'all'), ('all', 'sway1'), ('all', 'sway2'), ('sway1', 'sway2'), ('sway1', 'xpln1'), ('sway2', 'xpln2'), ('sway1', 'top')]:
         print(i[0]+' to '+i[1]+'\t', '\t'.join(['=' if i else '≠' for i in [utility.cliffsDelta(data_store[i[0]][j], data_store[i[1]][j]) for j in all.keys()]]))
 
-    # else:
-    #     for what, _ in funs.items():
-    #         if utility.args.go == "all" or what == utility.args.go:
-    #             if funs[what]() == False:
-    #                 fails += 1
-    #                 print("❌ fail:",what)
-    #             else: pass
-    # if (fails == 0): return 0
-    # else: return 1
 
     print("\n\n============================================\nScottsKnot\n============================================")
     for i in all.keys():

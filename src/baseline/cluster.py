@@ -23,7 +23,6 @@ def half2(data, rows = None, cols = None, above = None):
                     newA.append(i.lo-mu if i.txt[-1]=="-" else i.hi+mu)
                 else:
                     rdata = any(i.has)
-                    # print('rda',rdata)
                     newA.append(rdata)
             else:
                 newA.append(any(list(i.has.keys())))
