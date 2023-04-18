@@ -30,12 +30,3 @@ jobs:
     - name: Running custom test engine to output
       run: python ./src/main.py
     
-    
-    - name: Generate Report
-      run: |
-        pip install coverage
-        coverage run ./src/main.py
-    - name: Upload Coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        token: 74ecbcfc-3a85-4a4e-bc26-a496347b91c9
