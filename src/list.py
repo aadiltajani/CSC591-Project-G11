@@ -14,8 +14,11 @@ def any(t):
     return t[rintVal]
 
 def per(t, p):
-    p = math.floor(((p or 0.5) * len(t)))
-    return t[max(0, min(len(t) - 1, p))]
+    if len(t) > 0:
+        p = math.floor(((p or 0.5) * len(t)))
+        return t[max(0, min(len(t) - 1, p))]
+    else:
+        return 0
 
 def kap(listOfCols, fun):
     u = {}

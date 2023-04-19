@@ -17,11 +17,11 @@ def has(col):
 
 def mid(col):
 
-    return col.mode if hasattr(col, "isSym") and col.isSym else per(has(col), 0.5)
+    return col.mode if hasattr(col, "isSym") else per(has(col), 0.5)
 
 def div(col):
 
-    if hasattr(col, "isSym") and col.isSym:
+    if hasattr(col, "isSym"):
         e = 0
         if isinstance(col.has, dict):
             for n in col.has.values():
@@ -43,7 +43,7 @@ def stats(data, fun = None, cols = None, nPlaces = 2):
     return tmp
 
 def norm(num, n):
-    return n if n == "?" else (n - num.lo) / (num.hi - num.lo + sys.float_info.min)
+    return n if n == "?" else (float(n) - float(num.lo)) / (float(num.hi) - float(num.lo) + sys.float_info.min)
 
 
 def value(has, nB = 1, nR = 1, sGoal = True):
@@ -61,6 +61,8 @@ def dist(data, t1, t2, cols=None, d=None, dist1=None):
         return 0 if x == y else 1
 
     def num(x, y):
+        x = float(x) if x!='?' else "?"
+        y = float(y) if y!='?' else "?"
         if x == "?":
             x = 1 if y < 0.5 else 1
         if y == "?":
@@ -70,7 +72,7 @@ def dist(data, t1, t2, cols=None, d=None, dist1=None):
     def dist1(col, x, y):
         if x == "?" and y == "?":
             return 1
-        return sym(x, y) if hasattr(col, "isSym") and col.isSym else num(norm(col,float(x)), norm(col, float(y)))
+        return sym(x, y) if hasattr(col, "isSym") else num(norm(col,x), norm(col, y))
 
     d, cols = 0, cols or data.cols.x
     for col in cols:
@@ -81,6 +83,7 @@ def dist(data, t1, t2, cols=None, d=None, dist1=None):
 def better(data, row1, row2):
     s1, s2, ys = 0, 0, data.cols.y
     for col in ys:
+        # print(col.col.txt, col.col.isSym)
         x = norm(col.col, float(row1[col.col.at]) if row1[col.col.at] != "?" else row1[col.col.at])
         y = norm(col.col, float(row2[col.col.at]) if row2[col.col.at] != "?" else row2[col.col.at])
 

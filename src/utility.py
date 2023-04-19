@@ -56,6 +56,7 @@ def getCliArgs(seed):
     parser.add_argument("-R", "--Reuse", type=bool, default=False, required=False, help="child splits reuse a parent pole")
 
     args = parser.parse_args()
+    return args
 
 def csvFunc():
     global n

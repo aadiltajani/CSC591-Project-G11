@@ -29,10 +29,10 @@ def bins(cols, rowss):
             newRanges[i] = ranges[key]
             i += 1
         newRangesList = []
-        if hasattr(col, "isSym") and col.isSym:
+        if hasattr(col, "isSym"):
             for item in newRanges.values():
                 newRangesList.append(item)
-        out.append(newRangesList if hasattr(col, "isSym") and col.isSym else mergeAny(newRanges))
+        out.append(newRangesList if hasattr(col, "isSym") else mergeAny(newRanges))
     return out
 
 def bin(col, x):
@@ -48,7 +48,8 @@ def mergeAny(ranges0):
         for j in range(1, len(t)):
             t[j].lo = t[j-1].hi
         t[0].lo = -float("inf")
-        t[-1].hi = float("inf")
+        # print(t)
+        t[len(t)-1].hi = float("inf")
         return t
     ranges1, j = [], 0
     while j < len(ranges0):
@@ -92,7 +93,8 @@ def xpln(data, best, rest):
             if len(bestr) + len(restr) > 0:
                 return v({"best": len(bestr), "rest": len(restr)}), rule
     tmp, maxSizes = [], {}
-    for ranges in bins(data.cols.x, {"best": best.rows, "rest": rest.rows}):
+    for _,ranges in enumerate(bins(data.cols.x, {"best": best.rows, "rest": rest.rows})):
+        ranges = list(ranges.values()) if isinstance(ranges, dict) else ranges
         maxSizes[ranges[0].txt] = len(ranges)
         for range in ranges:
             tmp.append({"range": range, "max": len(ranges), "val": v(range.y.has)})
@@ -113,7 +115,7 @@ def firstN(sortedRanges, scoreFun):
     for n in range(len(sortedRanges)):
         tmp, rule = scoreFun([r["range"] for r in sortedRanges[:n + 1]]) or (None, None)
 
-        if tmp and tmp > most:
+        if tmp and tmp > most and rule != None:
             out, most = rule, tmp
 
     return out, most
@@ -155,15 +157,19 @@ def selects(rule, rows):
                     return True
                 else:
                     return False
-            if lo <= x and x < hi:
+            if float(lo) <= float(x) and float(x) < float(hi):
                 return True
         return False
 
     def conjunction(row):
-        for ranges in rule.values():
-            if not disjunction(ranges, row):
-                return False
-        return True
+        if rule:
+            for ranges in rule.values():
+                if ranges:
+                    if not disjunction(ranges, row):
+                        return False
+            return True
+        else:
+            return True
 
     return [r for r in rows if conjunction(r)]
 
@@ -179,6 +185,7 @@ def xpln2(data, best, rest):
                 return v({"best": len(bestr), "rest": len(restr)}), rule
     tmp, maxSizes = [], {}
     for ranges in bins(data.cols.x, {"best": best.rows, "rest": rest.rows}):
+        ranges = list(ranges.values()) if isinstance(ranges, dict) else ranges
         maxSizes[ranges[0].txt] = len(ranges)
         for range in ranges:
             tmp.append({"range": range, "max": len(ranges), "val": v(range.y.has)})
@@ -202,9 +209,9 @@ def firstN2(sortedRanges, scoreFun):
     most, out = -1, None
 
     for n in range(len(sortedRanges)):
-        tmp, rule = scoreFun([r["range"] for r in sortedRanges[:n + 1]], [r["range"] for r in negranges[:]]) or (None, None)
+        tmp, rule = scoreFun([r["range"] for r in sortedRanges[:n + 1]], [r["range"] for r in negranges[:len(negranges)//2]]) or (-math.inf, None)
 
-        if tmp and tmp > most:
+        if tmp and tmp > most and rule != None:
             out, most = rule, tmp
 
     return out, most
@@ -225,17 +232,20 @@ def selects2(rule, rows):
                     return True
                 else:
                     return False
-            if lo <= x and x < hi:
+            if float(lo) <= float(x) and float(x) < float(hi):
                 return True
         return False
 
     def conjunction(row):
-        for ranges in rule['pos'].values():
-            for neg in rule['neg'].values():
-                if disjunction(neg, row):
+        if rule:
+            for ranges in rule['pos'].values():
+                for neg in rule['neg'].values():
+                    if disjunction(neg, row):
+                        return False
+                if not disjunction(ranges, row):
                     return False
-            if not disjunction(ranges, row):
-                return False
-        return True
+            return True
+        else:
+            return True
 
     return [r for r in rows if conjunction(r)]

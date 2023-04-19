@@ -29,7 +29,7 @@ def half2(data, rows = None, cols = None, above = None):
 
         # A = above if util.args.Reuse else any(some)
         tmp = sorted([{"row": r, "d": gap(r, [str(i) for i in newA])} for r in some], key=lambda x: x["d"])
-        A =  tmp[0]['row']
+        A =  above or tmp[0]['row']
         tmp = sorted([{"row": r, "d": gap(r, A)} for r in some], key=lambda x: x["d"])
         far = tmp[int(len(tmp)*util.args.Far)]
         B, c = far["row"], far["d"]

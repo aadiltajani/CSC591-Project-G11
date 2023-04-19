@@ -14,13 +14,16 @@ def main(funs):
     seedarr = [937162211, 6541321, 9879653, 9362224, 937162268,
                936162874, 6662211, 21352211, 77632211, 933362211,
                9376442211, 541321, 33879653, 7265224, 6222158,
-               630148470, 51327910, 89462111, 7054511, 9332211]
+               630148470, 51327910, 989462111, 7054511, 9332211]
     def meanval(x):
         return round(x/len(seedarr),2)
 
     for seed in seedarr:
-        utility.getCliArgs(seed)
+        global args
+        args = utility.getCliArgs(seed)
         result_array.append(utility.explnFunc())
+
+
     var_dic = {}
     for i in result_array[0]['all'].keys():
         var_dic[i] = []
@@ -43,7 +46,7 @@ def main(funs):
             top[key] += result['top'][key]
             for i in data_store.keys():
                 data_store[i][key].append(result[i][key])
-    print("============================================\nDataset: healthCloseIsses12mths0001-hard.csv")
+    print("============================================\nDataset: {}".format(args.file.split('/')[-1]))
     print("============================================\nMean results of best outcomes from 20 runs\n============================================\n")
     print("\t",'\t'.join(all.keys()))
     print("all\t",'\t'.join([str(meanval(i)) for i in all.values()]))
