@@ -9,7 +9,7 @@ def sway(mode, data):
             return rows, many(worse, util.args.rest*len(rows)), evals0
         else:
             l , r, A, B, c, evals = half(data, rows, None, above) if mode=="sway1" else half2(data, rows, None, above)
-            if query.better(data, B, A):
+            if query.better(data, B, A, mode):
                 l, r, A, B = r, l, B, A
             for row in r:
                 worse.append(row)

@@ -20,6 +20,7 @@ def main(funs):
 
     for seed in seedarr:
         global args
+        print('seed',seed)
         args = utility.getCliArgs(seed)
         result_array.append(utility.explnFunc())
 

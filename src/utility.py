@@ -21,9 +21,9 @@ def dofile(filename):
     with open(filename) as f:
         return json.load(f)
 
-def rint(lo = None, hi = None):
-
-    return math.floor(0.5 + rand(lo, hi))
+def rint(lo = 0, hi = 1):
+    rand_v = rand(lo, hi)
+    return math.floor(rand_v)
 
 def rand(low = None, high = None):
     global Seed
@@ -49,7 +49,7 @@ def getCliArgs(seed):
     parser.add_argument("-p", "--p", type=int, default=2, required=False, help="distance coefficient")
     parser.add_argument("-c", "--cliffs", type=float, default=0.147, required=False, help="cliff's delta threshold")
     parser.add_argument("-F", "--Far", type=float, default=0.95, required=False, help="distance to distant")
-    parser.add_argument("-H", "--Halves", type=int, default=512, required=False, help="search space for clustering")
+    parser.add_argument("-H", "--Halves", type=int, default=1024, required=False, help="search space for clustering")
     parser.add_argument("-m", "--min", type=float, default=0.5, required=False, help="size of smallest cluster")
     parser.add_argument("-M", "--Max", type=int, default=512, required=False, help="numbers")
     parser.add_argument("-r", "--rest", type=int, default=4, required=False, help="how many of rest to sample")

@@ -89,7 +89,7 @@ def bootstrap(y0, z0):
 
         if delta(ys, zs) > tobs:
             n += 1
-    print(n, n/512)
+    # print(n, n/512)
     return n / 512 >= 0.01
 
 

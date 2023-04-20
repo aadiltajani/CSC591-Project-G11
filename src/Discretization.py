@@ -239,11 +239,13 @@ def selects2(rule, rows):
     def conjunction(row):
         if rule:
             for ranges in rule['pos'].values():
-                for neg in rule['neg'].values():
-                    if disjunction(neg, row):
+                if ranges:
+                    for neg in rule['neg'].values():
+                        if neg:
+                            if disjunction(neg, row):
+                                return False
+                    if not disjunction(ranges, row):
                         return False
-                if not disjunction(ranges, row):
-                    return False
             return True
         else:
             return True

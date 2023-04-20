@@ -3,14 +3,13 @@ import utility as util
 
 
 def many(t, n):
-
     u = []
     for i in range(1, n + 1):
         u.append(any(t))
     return u
 
 def any(t):
-    rintVal = util.rint(None, len(t) - 1)
+    rintVal = util.rint(0, len(t) - 1)
     return t[rintVal]
 
 def per(t, p):

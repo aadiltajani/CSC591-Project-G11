@@ -56,7 +56,7 @@ def value(has, nB = 1, nR = 1, sGoal = True):
     b,r = b/(nB+1/float("inf")), r/(nR+1/float("inf"))
     return (b ** 2) / (b + r)
 
-def dist(data, t1, t2, cols=None, d=None, dist1=None):
+def dist(data, t1, t2, cols=None, d=None, dist1=None, mode = None):
     def sym(x, y):
         return 0 if x == y else 1
 
@@ -76,19 +76,20 @@ def dist(data, t1, t2, cols=None, d=None, dist1=None):
 
     d, cols = 0, cols or data.cols.x
     for col in cols:
-        d += dist1(col.col, t1[col.col.at], t2[col.col.at]) ** util.args.p
+        factor = 2 + 10/abs(col.col.hi - col.col.lo) if mode == 'sway2' else 1
+        d += (dist1(col.col, t1[col.col.at], t2[col.col.at]) ** (util.args.p)) * factor
     return (d / len(cols)) ** (1 / util.args.p)
 
 
-def better(data, row1, row2):
+def better(data, row1, row2, mode = None):
     s1, s2, ys = 0, 0, data.cols.y
     for col in ys:
         # print(col.col.txt, col.col.isSym)
         x = norm(col.col, float(row1[col.col.at]) if row1[col.col.at] != "?" else row1[col.col.at])
         y = norm(col.col, float(row2[col.col.at]) if row2[col.col.at] != "?" else row2[col.col.at])
-
-        s1 -= math.exp(col.col.w * (x-y)/len(ys))
-        s2 -= math.exp(col.col.w * (y - x)/len(ys))
+        factor = (2 + 10/abs(col.col.hi - col.col.lo)) if mode=='sway2' else 1
+        s1 -= math.exp(col.col.w * (x-y)/len(ys)) ** factor
+        s2 -= math.exp(col.col.w * (y-x)/len(ys)) ** factor
 
     return s1/len(ys) < s2 / len(ys)
 
