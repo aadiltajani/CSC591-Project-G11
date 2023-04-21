@@ -38,6 +38,10 @@ conda install *packageName*
 python ./src/main.py -f {file}
 ```
 
+## Outputs
+![Project Report](https://github.com/aadiltajani/CSC591-Project-G11/blob/main/etc/CSC591-ASE-G11-Final%20Project%20Report.pdf)
+![All files output](https://github.com/aadiltajani/CSC591-Project-G11/tree/main/etc/out)
+
 ## Roadmap
 
 Execution shows the comaprison of sway and xpln function with 20 repeated runs and scottsknot and cliffs delta as stats
