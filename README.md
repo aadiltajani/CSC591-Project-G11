@@ -2,7 +2,7 @@
 
 [![GitHub](https://img.shields.io/github/license/aadiltajani/CSC591-Project-G11)](https://github.com/aadiltajani/CSC591-Project-G11/blob/main/LICENSE.md)
 [![workflow](https://github.com/aadiltajani/CSC591-Project-G11/actions/workflows/main.yml/badge.svg)](https://github.com/aadiltajani/CSC591-Project-G11/actions)
-[![DOI](https://zenodo.org/badge/590560484.svg)](https://zenodo.org/badge/latestdoi/590560484)
+[![DOI](https://zenodo.org/badge/625336929.svg)](https://zenodo.org/badge/latestdoi/625336929)
 ![Github](https://img.shields.io/badge/language-python-red.svg)
 [![Github closes issues](https://img.shields.io/github/issues-closed-raw/aadiltajani/CSC591-Project-G11)](https://github.com/aadiltajani/CSC591-Project-G11/issues?q=is%3Aissue+is%3Aclosed)
 [![Github pull requests](https://img.shields.io/github/issues-pr/aadiltajani/CSC591-Project-G11)](https://github.com/aadiltajani/CSC591-Project-G11/pulls)
