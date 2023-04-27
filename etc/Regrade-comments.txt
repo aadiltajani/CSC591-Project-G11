@@ -1,0 +1,19 @@
+## Issues
+
+1 "The Pareto frontier, [...] is one well-known method for solving this type of optimization problem"--the Pareto frontier is not a method for anything. It's merely a collection of points.
+2 Your research question 1 and 2 are the same.
+3 You seem to have ignored the semi-supervised requirement.
+4 Your introduction...seems to tell a different story than semi-supervised multi-objective optimization.
+5 Your related work is scant on references.
+6 Why does your report have code?
+7 I have no idea what Figures 5-10 are for. It is never explained what datasets these show results for (except Fig. 6). As such, they are practically useless. For Figures 8-10, there are no error bars or statistics shown.
+
+
+OUR COMMENTS:
+
+1 - Yes, we understand that and get the confusion faced. But, we are just pointing out that pareto frontier is a means to select the best optimization method out of the available ones.
+4 - We are trying to convey how important it is to build a mapping function to consider all Y(goals) to accurately predict new values by trading off for some goals, using pareto frontier to select the best optimization, a common scenario in semi-supervised multi-objective optimization.
+6 - The code mentioned in the report is shown as pseudocode with comments showing our implementation and what is different compared to baseline.
+7 - Figures 5,6, and 7 are used just to show what kind of performance and summarization methods are used for our project as mentioned in their respective descriptions. Whereas, figures 8-11 and tables 2-4 all show results and data for the dataset “healthCloseIsses12mths0001-hard.csv” as mentioned in the first paragraph of the Results section and are described in that same section with all variables. We have tried our best to showcase metrics and visualizations such that they don’t consume major part of the paper, hence showing everything for 1 dataset and including the rest of the results in our github repository under etc/out folder.
+
+Also, we have provided some relatable discussion points and future work in Discussion and ending with an informative conclusion. Regarding bonus points, we have covered Ablation study in 3C - Performance Measures, February study in Results and HPO study in Conclusion as it was not making sense to us to make new sections in a paper for the bonus parts and show them where they could be related the most.
